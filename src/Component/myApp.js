@@ -1,5 +1,4 @@
     import React, { Component } from 'react';
-    import { Contact } from '../Entity/contact';
 
 
     export class TelephoneDictionnary extends React.Component {
@@ -20,8 +19,8 @@
             <h3>TELEPHONE DICTIONNARY</h3>
                 <br/>
                 <input
-                placeholder='Search by name'
-                id="new-search"
+                placeholder="Search by name or number"
+                data-testid="new-search"
                 onChange={this.search}
                 value={this.state.search}
                 />
@@ -34,7 +33,8 @@
                 </label>
                 <br/>
                 <input
-                id="new-name"
+                data-testid="new-name"
+                placeholder='enter name'
                 onChange={this.handleChangeName}
                 value={this.state.name}
                 />
@@ -44,7 +44,8 @@
                 </label>
                 <br/>
                 <input
-                id="new-firstname"
+                data-testid="new-firstname"
+                placeholder='enter firstname'
                 onChange={this.handleChangeFirstName}
                 value={this.state.firstname}
                 />
@@ -55,13 +56,15 @@
                 </label>
                 <br/>
                 <input
-                id="new-phone-number"
+                data-testid="new-phone-number"
+                placeholder="enter new phone number"
                 type="number"
                 onChange={this.handleChangePhoneNumber}
                 value={this.state.phoneNumber}
                 />
                 <br/><br/>
-                <button>
+                <button
+                data-testid="create-contact">
                 Create a contact
                 </button>
             </form>
@@ -90,7 +93,6 @@
 
         search(e){
             console.log(e.target.value);
-            // console.log(this.state.itemsSearch);
             const array = [...this.state.items];
             if(e.target.value.length !== 0){
                 const nameSearched = e.target.value;
@@ -101,11 +103,6 @@
                     search:e.target.value,
                     itemsSearch: filteredData
                 })
-                // const rim = this.state.items.filter((element)=> {
-                //     const name = element.name;
-                //     console.log(element.name)
-                //     return name === e.target.value;
-                // });
                 console.log('tableau attendu ', filteredData);
             } 
             if(e.target.value.length === 0){
@@ -114,14 +111,13 @@
                     search: '',
                     itemSearch: []});
             }
-            
         }
 
     
         handleSubmit(e) {
         e.preventDefault();
         if (this.state.name.length === 0 || this.state.firstname.length === 0 || this.state.phoneNumber.length === 0) {
-            return;
+            return false;
         }
         
         const newContact = {
@@ -143,6 +139,7 @@
     class ContactList extends React.Component {
         render() {
         return (
+            <div data-testid="contact-list">
             <ul>
             {this.props.items.map(item => (
                 <li key={item.id}>
@@ -155,12 +152,14 @@
                 </li>
             ))}
             </ul>
+            </div>
         );
         }
     }
     class ContactListSearch extends React.Component {
         render() {
         return (
+            <div data-testid="contact-list-search">
             <ul>
             {this.props.itemsSearch.map(item => (
                 <li key={item.id}>
@@ -173,6 +172,7 @@
                 </li>
             ))}
             </ul>
+            </div>
         );
         }
     }
